@@ -1,0 +1,86 @@
+@(message: String)
+
+@main("Welcome to Play") {
+    <h2>Students Details</h2>
+
+    <table>
+        <thead><tr>
+            <th>Student name</th><th>Course</th><th>Fees</th><th></th>
+        </tr></thead>
+        <tbody data-bind="foreach: seats">  @*to use the foreach binding, so that it will render a copy of its child elements for each entry in the seats array:*@
+            <tr>
+                <td><input data-bind="value: name" /></td>
+                @*<td data-bind="text: course().courseName"></td> /*Notice that, because the course property is an observable,
+                                                             it's important to invoke course() as a function (to obtain its
+                                                             current value) before attempting to read sub-properties.
+                                                             In other words, write course().fee, not course.fee*/
+                <td data-bind="text: course().fee"></td>*@
+               <td><select data-bind="options: $root.availableCourses, value: course, optionsText: 'courseName'"></select></td> @*This code uses two new bindings, options and optionsText,
+                                                                                                                          which together control both the set of available items in a
+                                                                                                                          dropdown list, and which object property (in this case, courseName)
+                                                                                                                          is used to represent each item on screen.*@
+                <td data-bind="text: formattedPrice"></td>
+                <h3 data-bind="visible: totalFees() > 0">
+                    Total course fee: $<span data-bind="text: totalFees().toFixed(2)"></span>
+                </h3>
+                <td><a href="#" data-bind="click: $root.removeStudent">Remove</a></td> @*$root. prefix causes Knockout to look
+                                                                                    for a removeStudent handler on your top-level
+                                                                                    viewmodel instead of on the StudentAdmission
+                                                                                    instance being bound*@
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Student Count (<span data-bind="text: seats().length"></span>)</h2>
+    <button data-bind="click: addStudent">Add another student</button> @*Add a button to view, using the click binding to associate its clicks with a function on viewmodel*@
+    <button data-bind="click: addStudent, enable: seats().length < 5">Add another student</button>
+}
+
+<script>
+        // Class to represent a row in the seat reservations grid
+        function StudentAdmission(name, initialCourse) {
+            var self = this;
+            self.name = name;
+            self.course = ko.observable(initialCourse);
+
+            self.formattedPrice = ko.computed(function() {
+                var fee = self.course().fee;
+                return fee ? "$" + fee.toFixed(2) : "None";
+            });
+        }
+
+        // Overall viewmodel for this screen, along with initial state
+        function StudentViewModel() {
+            var self = this;
+
+            // Non-editable catalog data - would come from the server
+            self.availableCourses = [
+                { courseName: "English", fee: 0 },
+                { courseName: "Spanish", fee: 34.95 },
+                { courseName: "chines", fee: 290 }
+            ];
+
+            // Editable data
+            self.seats = ko.observableArray([
+                new StudentAdmission("Ben", self.availableCourses[0]),
+                new StudentAdmission("steve", self.availableCourses[0])
+            ]);
+
+
+            self.totalFees = ko.computed(function() {
+                var total = 0;
+                for (var i = 0; i < self.seats().length; i++)
+                    total += self.seats()[i].course().fee;
+                return total;
+            });
+
+            self.removeStudent = function(seat) { self.seats.remove(seat) };
+
+            self.addStudent = function() {
+                self.seats.push(new StudentAdmission("tina",self.availableCourses[1]));
+            };
+
+        }
+
+        ko.applyBindings(new StudentViewModel());
+</script>
