@@ -1,0 +1,24 @@
+@(message: String)
+
+@main("Welcome to Play") {
+
+    Employee name: <input data-bind="value: empName"/><br>
+    Employee Id: <input data-bind="value: empId"/><br><br>
+
+    Details of the employee: <span data-bind="text: empDetail"></span>
+}
+
+<script>
+        var employeeViewModel = {
+            empName: ko.observable('abc'),
+            empId: ko.observable(49)
+        };
+
+        var empDetail =  ko.computed(function() {
+            return employeeViewModel.empName() +
+                    " employee  id: "  + employeeViewModel.empId();   // employeeViewModel.empId.peek();
+        });
+
+        ko.applyBindings(employeeViewModel);
+
+</script>
