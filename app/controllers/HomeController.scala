@@ -4,6 +4,10 @@ import javax.inject._
 
 import play.api.libs.json._
 import play.api.mvc._
+<<<<<<< HEAD
+=======
+import play.filters.csrf.{CSRFCheck, CSRFAddToken}
+>>>>>>> 8cc8e5b827bc83481df2d96108f6c3608732c819
 
 case class User(firstName: String,
                 lastName: String,
