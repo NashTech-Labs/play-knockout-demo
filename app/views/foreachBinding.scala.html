@@ -1,0 +1,54 @@
+@(message: String)
+
+@main(message) {
+    <h4>Details of employee</h4>
+    <ul data-bind="foreach: employee">
+        <li>
+            Employee name <span data-bind="text: $index"> </span>:
+            <span data-bind="text: name"> </span>,
+            Employee salary <span data-bind="text: salary"> </span>
+
+            <a href="#" data-bind="click: $parent.removeEmployee">
+                Remove</a>    @*A binding context is an object that holds data that you can reference from your bindings.*@
+
+        </li>
+    </ul>
+    <h2>Employee Count (<span data-bind="text: employee().length"></span>)</h2>
+
+    <h3 data-bind="visible: totalSalary() > 0">
+        Total salary of employees : $<span data-bind="text: totalSalary()"></span>
+    </h3>
+
+    <button data-bind="click: addEmployee">Add</button>
+}
+
+<script type="text/javascript">
+        var counter = 3;
+        function myViewModel() {
+            var self = this;
+
+            self.employee = ko.observableArray([
+                { name: 'test1', salary: 20000},
+                { name: 'test2', salary: 25000},
+                { name: 'test3', salary: 30000}
+            ]);
+
+            self.addEmployee = function() {
+                counter++;
+                self.employee.push({ name: "test" + counter, salary: 25000});
+            };
+
+            self.removeEmployee = function() {
+                self.employee.remove(this);
+            }
+
+            self.totalSalary = ko.computed(function() {
+                var total = 0;
+                for (var i = 0; i < self.employee().length; i++)
+                    total += self.employee()[i].salary;
+                return total;
+            });
+        }
+
+        ko.applyBindings(new myViewModel());
+</script>

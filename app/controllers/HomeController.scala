@@ -17,12 +17,28 @@ class HomeController @Inject() extends Controller {
     Ok(views.html.index("Your new application is ready."))
   }
 
-  def example = Action {
-    Ok(views.html.user("example1"))
+  def observableExample = Action{
+    Ok(views.html.observableExample("observable example"))
   }
 
-  def observableExample = Action{
-    Ok(views.html.observableExample("example2"))
+  def visibleBinding =Action{
+    Ok(views.html.visibleBinding("visible binding example"))
+  }
+
+  def htmlBinding =Action{
+    Ok(views.html.htmlBinding("htnl binding example"))
+  }
+
+  def foreachBinding =Action{
+    Ok(views.html.foreachBinding("foreach binding example"))
+  }
+
+  def customBinding = Action {
+    Ok(views.html.customBinding("custom binding"))
+  }
+
+  def studentsDetails = Action {
+    Ok(views.html.student("student details"))
   }
 
   def userDetail = Action {

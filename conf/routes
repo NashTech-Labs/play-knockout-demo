@@ -4,8 +4,13 @@
 
 # An example controller showing a sample home page
 GET        /                         controllers.HomeController.index
-GET        /example                  controllers.HomeController.example
 GET        /observableExample        controllers.HomeController.observableExample
+GET        /visibleBinding           controllers.HomeController.visibleBinding
+GET        /htmlBinding              controllers.HomeController.htmlBinding
+GET        /foreachBinding           controllers.HomeController.foreachBinding
+
+GET        /customBinding            controllers.HomeController.customBinding
+GET        /student                  controllers.HomeController.studentsDetails
 GET        /user                     controllers.HomeController.userDetail
 # An example controller showing how to use dependency injection
 GET        /count                    controllers.CountController.count

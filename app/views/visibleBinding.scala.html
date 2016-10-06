@@ -1,0 +1,24 @@
+@(message: String)
+
+@main(message){
+    <div data-bind="visible: shouldDisplay">
+       This will display only when "shouldShowMessage" holds a true value.
+    </div>
+
+    <div data-bind="visible: displayMessage().length > 0">
+        This will display only when 'displayMessage' has at least one member.
+    </div>
+
+}
+
+<script type="text/javascript">
+        var myViewModel = {
+            shouldDisplay: ko.observable(true), // Message initially visibleBinding
+            displayMessage: ko.observableArray([])
+        };
+       // myViewModel.shouldDisplay(false); // it's hidden
+
+        myViewModel.displayMessage.push("visibleBinding"); // visibleBinding
+
+    ko.applyBindings(myViewModel);
+</script>

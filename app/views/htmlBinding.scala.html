@@ -1,0 +1,14 @@
+@(message: String)
+
+@main(message) {
+    <div data-bind="html: details"></div>
+}
+
+<script type="text/javascript">
+        var myViewModel = {
+            details: ko.observable() // Initially blank
+        };
+        myViewModel.details("<p>This is an example of html binding</p>"); // HTML content visible
+
+        ko.applyBindings(myViewModel);
+</script>
